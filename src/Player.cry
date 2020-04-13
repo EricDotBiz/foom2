@@ -1,0 +1,39 @@
+import Math;
+
+class Player {
+    field width;
+    field height;
+
+    field x;
+    field y;
+
+    field x_speed = 0;
+    field y_speed = 0;
+
+    field accel = 2.5;
+    field friction = 1;
+    field max_speed = 5;
+
+    field direction = 0;
+
+    constructor(x, y, width = 10, height = 10){
+        this.x = x;
+        this.y = y;
+
+        this.width = width;
+        this.height = height;
+    }
+
+    function moveLeft(){ this.x_speed -= this.accel; }
+    function moveRight(){ this.x_speed += this.accel; }
+    function moveUp(){ this.y_speed -= this.accel; }
+    function moveDown(){ this.y_speed += this.accel; }
+
+    function update(){
+        if(Math.abs(this.x_speed) > this.max_speed){ this.x_speed = this.max_speed*Math.sign(this.x_speed); }
+        if(Math.abs(this.y_speed) > this.max_speed){ this.y_speed = this.max_speed*Math.sign(this.y_speed); }
+
+        this.x_speed -= this.friction*Math.sign(this.x_speed);
+        this.y_speed -= this.friction*Math.sign(this.y_speed);
+    }
+}

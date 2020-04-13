@@ -23,8 +23,8 @@
     ],
 
     "vars": [
-		{ "name": "screen_width", "value": 720 },
-		{ "name": "screen_height", "value": 520 },
+		{ "name": "screen_width", "value": 640 },
+		{ "name": "screen_height", "value": 480 },
 		{ "name": "use_beta_endpoint", "value": false },
 		{ "name": "game_title", "value": "Foom2" },
 		{ "name": "initial_scene", "value": "GameScene" },

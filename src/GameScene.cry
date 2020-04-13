@@ -1,7 +1,81 @@
 ﻿import TwoCansAlpha4;
 import Graphics2D;
+import Math;
+
+function isRectangleCollision(x1, y1, w1, h1, x2, y2, w2, h2) {
+    if (x1+w1 < x2) return false;
+    if (x1 > x2+w2) return false;
+    if (y1+h1 < y2) return false;
+    if (y1 > y2+h2) return false;
+    return true;
+}
 
 class GameScene : AbstractScene {
-    function update(inputManager, events){ }
-    function render(){ }
+    field screen_width = 640;
+    field screen_height = 480;
+    
+    field player;
+    field walls; 
+
+    field level_grid = [
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+        [0, 2, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+        [1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1],
+    ];
+
+    constructor() : base() { 
+        this.player = new Player(0,0);
+        this.walls = [];
+        this.walls.add(new Wall(-20, -20, 680, 20));
+        this.walls.add(new Wall(-20, -20, 20, 520));
+        this.walls.add(new Wall(640, -20, 20, 520));
+        this.walls.add(new Wall(-20, 400, 680, 80));
+        
+        for(i=0; i<this.level_grid.length; i++){
+            for(j=0; j<this.level_grid[0].length; j++){
+                if(this.level_grid[i][j] == 2){
+                    this.player.x = j*40+20;
+                    this.player.y = i*40+20;
+                }else if(this.level_grid[i][j] == 1){
+                    this.walls.add(new Wall(j*40, i*40, 40, 40));
+                }
+            }
+        }
+    }
+
+    function update(inputManager, events){ 
+        //Read inputs
+        if(inputManager.isKeyPressed(KeyboardKey.LEFT)){ this.player.moveLeft(); }
+        if(inputManager.isKeyPressed(KeyboardKey.RIGHT)){ this.player.moveRight(); }
+        if(inputManager.isKeyPressed(KeyboardKey.UP)){ this.player.moveUp(); }
+        if(inputManager.isKeyPressed(KeyboardKey.DOWN)){ this.player.moveDown(); }
+
+        //Update entities
+        this.player.update();
+        
+        //Collision detection
+        for(wall : this.walls){    
+            if(isRectangleCollision(this.player.x+this.player.x_speed, this.player.y, this.player.width, this.player.height, wall.x, wall.y, wall.width, wall.height)){
+                this.player.x_speed = 0;
+            }
+            if(isRectangleCollision(this.player.x, this.player.y+this.player.y_speed, this.player.width, this.player.height, wall.x, wall.y, wall.width, wall.height)){
+                this.player.y_speed = 0;
+            }
+        }
+
+        this.player.x += this.player.x_speed;
+        this.player.y += this.player.y_speed;
+    }
+    
+    function render(){ 
+        for(wall : this.walls){ Draw.rectangle(wall.x, wall.y, wall.width, wall.height, 0, 0, 255); }
+		Graphics2D.Draw.rectangle(this.player.x, this.player.y, this.player.width, this.player.height, 255, 0, 0);
+    }
 }
