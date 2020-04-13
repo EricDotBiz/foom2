@@ -1,0 +1,7 @@
+﻿import TwoCansAlpha4;
+import Graphics2D;
+
+class GameScene : AbstractScene {
+    function update(inputManager, events){ }
+    function render(){ }
+}

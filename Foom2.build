@@ -1,0 +1,63 @@
+﻿{
+    "id": "Foom2",
+    "title": "Foom 2: Fell on Earth",
+    "version": "0.1",
+    "guid-seed": "com.ericdotcom.Foom2,v1,%TARGET_NAME%",
+    
+	"compilerlocale": "en",
+    "source": "src/",
+    "output": "build/%TARGET_NAME%",
+	"delegate-main-to": "TwoCansAlpha4",
+
+    "icons": [
+        "assets/icon32.png",
+        "assets/icon256.png"
+    ],
+
+    "deps": [
+		"%TWOCANS_SDK%/TwoCansAlpha4"
+	],
+
+    "image-sheets": [
+        { "id": "twocans_everything", "prefix": "*" }
+    ],
+
+    "vars": [
+		{ "name": "screen_width", "value": 720 },
+		{ "name": "screen_height", "value": 520 },
+		{ "name": "use_beta_endpoint", "value": false },
+		{ "name": "game_title", "value": "Foom2" },
+		{ "name": "initial_scene", "value": "GameScene" },
+		{ "name": "use_60_fps", "value": true },
+		{ "name": "enable_wasd", "value": true },
+		{ "name": "thumbnail", "value": "assets/icon32.png" }
+    ],
+
+    "targets": [
+        {
+            "name": "android",
+            "platform": "javascript-app-android"
+        },
+        {
+            "name": "ios",
+            "platform": "javascript-app-ios"
+        },
+        {
+            "name": "javascript",
+            "platform": "javascript-app",
+            "js-file-prefix": "/website/relative/path/from/domain/root"
+        },
+        {
+            "name": "csharp",
+            "platform": "csharp-app"
+        },
+        {
+            "name": "java",
+            "platform": "java-app"
+        },
+        {
+            "name": "python",
+            "platform": "python-app"
+        }
+    ]
+}
